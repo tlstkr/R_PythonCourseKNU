@@ -1,0 +1,41 @@
+---
+title: "Lab2"
+author: "Anastasiia Tolstokorova"
+date: "10/27/2020"
+output: html_document
+---
+
+## Task 1
+
+#### Vector v
+
+```{r}
+v <- rnorm(100)
+print(v[10])
+print(v[10:20])
+print(v[20:29])
+print(v[v>0])
+```
+## Task 2
+
+#### Dataframe
+
+```{r}
+y <- data.frame(a = rnorm(100), b = 1:100, cc = sample(letters, 100, replace = TRUE))
+print(y[(length(y[,1])-9):length(y[,1]),])
+print(y[10:20,])
+print(y[10,'b'])
+print(y[,'cc'])
+
+```
+
+## Task 3
+
+#### Vector z
+
+```{r}
+z = c(1, 2, 3, NA, 4, NA, 5, NA)
+print(z[!is.na(z)])
+mean(z[!is.na(z)])
+mean(z)
+```
