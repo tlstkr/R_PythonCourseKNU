@@ -1,0 +1,80 @@
+---
+title: "Lab5"
+author: "Anastasiia Tolstokorova"
+date: "11/5/2020"
+output:
+  md_document:
+    variant: markdown_github
+---
+## Task 1
+
+#### Create pmean function
+
+```{r}
+
+pmean <- function(directory, pollutant, id = 1:332) {
+  data <- data.frame()
+  for(i in id) {
+    data <- rbind(data, read.csv(paste(directory, sprintf("%03d.csv", i), sep="/")))
+  }
+  return(mean(data[,pollutant], na.rm = TRUE))
+}
+
+pmean("specdata", "sulfate", 1:10)
+pmean("specdata", "sulfate", 55)
+pmean("specdata", "nitrate", 1:10)
+
+
+
+```
+## Task 2
+
+#### Create complete function
+
+```{r}
+
+complete <- function(directory, id) {
+  data <- data.frame()
+  for(i in id) { 
+    data <- rbind(data, data.frame(i, sum(complete.cases(read.csv(paste(directory, sprintf("%03d.csv", i), sep="/"))))))
+  }
+  return (data)
+}
+
+complete("specdata", 1)
+complete("specdata", c(2, 4, 8, 10, 12))
+complete("specdata", 50:60)
+
+
+```
+
+
+## Task 3
+
+#### Create corr function
+
+```{r}
+
+corr <- function(directory, threshold = 0) {
+  res_v <- c()
+  for(i in 1:332) {
+    df <- read.csv(paste(directory, sprintf("%03d.csv", i), sep="/"))
+    df <- df[complete.cases(df),]
+    if(nrow(df) > threshold) {
+      res_v <- c(res_v, cor(df[,"sulfate"], df[,"nitrate"]))
+    }
+  }
+  return (res_v)
+}
+
+cr <- corr("specdata", 150)
+head(cr); summary(cr)
+
+cr <- corr("specdata", 400)
+head(cr); summary(cr)
+
+cr <- corr("specdata", 5000)
+head(cr); summary(cr) ; length(cr)
+
+```
+
